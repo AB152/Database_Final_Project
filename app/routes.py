@@ -45,9 +45,14 @@ def create():
     result = {'success': True, 'response': 'Done'}
     return jsonify(result)
 
+@app.route("/restaurant/<int:RestaurantID>")
+def menupage(restaurant_id):
+    """returns rendered menu page for a restaurant"""
+    menu_list = db_helper.fetch_menu(restaurant_id)
+    return render_template("index.html", menu=menu_list)
 
 @app.route("/")
 def homepage():
     """ returns rendered homepage """
-    items = db_helper.fetch_todo()
-    return render_template("index.html", items=items)
+    restaurants = db_helper.fetch_restaurants()
+    return render_template("index.html", restaurants=restaurants)
