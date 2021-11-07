@@ -6,52 +6,52 @@ from app import database as db_helper
 @app.route("/restaurant/<int:RestaurantID>")
 def menupage(restaurant_id):
     """returns rendered menu page for a restaurant"""
-    menu_list = db_helper.fetch_menu(restaurant_id)
-    return render_template("index.html", menu=menu_list)
+    dish_list = db_helper.fetch_menu(restaurant_id)
+    return render_template("index.html", menu=dish_list)
 
 @app.route("/")
 def homepage():
-    """ returns rendered homepage """
-    restaurants = db_helper.fetch_restaurants()
-    return render_template("index.html", restaurants=restaurants)
+    """ returns rendered homepage (list of restaurants) """
+    restaurant_list = db_helper.fetch_restaurants()
+    return render_template("index.html", restaurants=restaurant_list)
 
-# @app.route("/delete/<int:task_id>", methods=['POST'])
-# def delete(task_id):
-#     """ recieved post requests for entry delete """
+@app.route("/delete/<int:restaurant_id>", methods=['POST'])
+def delete(restaurant_id):
+    """ recieved post requests for restaurant delete """
 
-#     try:
-#         db_helper.remove_task_by_id(task_id)
-#         result = {'success': True, 'response': 'Removed task'}
-#     except:
-#         result = {'success': False, 'response': 'Something went wrong'}
+    try:
+        db_helper.remove_restaurant_by_id(restaurant_id)
+        result = {'success': True, 'response': 'Removed task'}
+    except:
+        result = {'success': False, 'response': 'Something went wrong'}
 
-#     return jsonify(result)
+    return jsonify(result)
 
-# @app.route("/edit/<int:task_id>", methods=['POST'])
-# def update(task_id):
-#     """ recieved post requests for entry updates """
+@app.route("/edit/<int:restaurant_id>", methods=['POST'])
+def update(restaurant_id):
+    """ recieved post requests for restaurant updates """
 
-#     data = request.get_json()
+    data = request.get_json()
 
-#     try:
-#         if "status" in data:
-#             db_helper.update_status_entry(task_id, data["status"])
-#             result = {'success': True, 'response': 'Status Updated'}
-#         elif "description" in data:
-#             db_helper.update_task_entry(task_id, data["description"])
-#             result = {'success': True, 'response': 'Task Updated'}
-#         else:
-#             result = {'success': True, 'response': 'Nothing Updated'}
-#     except:
-#         result = {'success': False, 'response': 'Something went wrong'}
+    try:
+        if "status" in data:
+            db_helper.update_restaurant_entry(restaurant_id, data["status"])
+            result = {'success': True, 'response': 'Status Updated'}
+        elif "description" in data:
+            db_helper.update_restaurant_entry(restaurant_id, data["description"])
+            result = {'success': True, 'response': 'Task Updated'}
+        else:
+            result = {'success': True, 'response': 'Nothing Updated'}
+    except:
+        result = {'success': False, 'response': 'Something went wrong'}
 
-#     return jsonify(result)
+    return jsonify(result)
 
 
-# @app.route("/create", methods=['POST'])
-# def create():
-#     """ recieves post requests to add new task """
-#     data = request.get_json()
-#     db_helper.insert_new_task(data['description'])
-#     result = {'success': True, 'response': 'Done'}
-#     return jsonify(result)
+@app.route("/create", methods=['POST'])
+def create():
+    """ recieves post requests to add new restaurant """
+    data = request.get_json()
+    db_helper.insert_new_restaurant(data['RestaurantName'], data['ZipCode'], data['Address'])
+    result = {'success': True, 'response': 'Done'}
+    return jsonify(result)
