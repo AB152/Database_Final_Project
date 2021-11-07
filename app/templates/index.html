@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Demo: TODO</title>
+        <title>What's Good Here</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,10 +70,10 @@
         </thead>
 
         <tbody>
-        {% for item in items %}
+        {% for restaurant in restaurants %}
             <tr>
-                <td>{{item.id}}</td>
-                <td>{{item.task}}</td>
+                <td>{{restaurant.RestaurantID}}</td>
+                <td>{{restaurant.RestaurantName}}</td>
 
                 {% if item.status == "In Progress" %}
                     <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
