@@ -3,7 +3,7 @@ from app import db
 
 # FUTURE IDEA: CREATE TRIGGER THAT DETECTS IF INSERTED/NEW ROW IS DUPLICATE
 # CRUD CHECKLIST (Each letter represents if that CRUD func was done for that table):
-#   - Restaurants: R (Can fully implement after demo)
+#   - Restaurants: CRUD
 #   - Dishes: CRUD
 #   - Ratings: CRUD
 #   - Users: CRUD
@@ -31,6 +31,55 @@ def fetch_restaurants() -> dict:
 
     return restaurant_list
 
+def insert_new_restaurant(restaurant_name: str, zip_code: int, address: str) -> None:
+    """Insert new restaurant into Restaurants table
+    
+    Args:
+        restaurant_name (str): Name of restaurant
+        zip_code (int): Zip code of restaurant
+        Address (str): Price of new dish
+
+    Returns: 
+        None
+    """
+
+    conn = db.connect()
+    query = "INSERT INTO Restaurants (RestaurantName, ZipCode, Address) VALUES ({}, {}, {});".format(restaurant_name, zip_code, address)
+    conn.execute(query)
+    conn.close()
+
+def update_restaurant_entry(restaurant_id: int, restaurant_name: str, zip_code: int, address: str) -> None:
+    """Updates restaurant entry based on given RestaurantID
+
+    Args:
+        restaurant_id (int): Targeted RestaurantID
+        restaurant_name (str): Updated name of restaurant (can be the same as the prior value)
+        zip_code (int): Updated ZipCode of restaurant (can be the same as the prior value)
+        address (str): Updated Address of restaurant (can be the same as the prior value)
+
+    Returns:
+        None
+    """
+
+    conn = db.connect()
+    query = "UPDATE Restaurants SET RestaurantName = {} ZipCode = {} Address = {} WHERE RestaurantID = {};".format(restaurant_name, zip_code, address, restaurant_id)
+    conn.execute(query)
+    conn.close()
+
+def remove_restaurant_by_id(restaurant_id: int) -> None:
+    """ Remove restaurant based on RestaurantID 
+    
+    Args:
+        restaurant_id (int): Targeted RestaurantID
+    
+    Returns:
+        None
+    """
+    conn = db.connect()
+    query = "DELETE FROM Restaurants WHERE RestaurantID = {};".format(restaurant_id)
+    conn.execute(query)
+    conn.close()
+
 def fetch_dishes(restaurant_id: int) -> dict:
     """ Reads all dish items for the input restaurant_id
 
@@ -57,7 +106,7 @@ def fetch_dishes(restaurant_id: int) -> dict:
 
     return dish_list
 
-def insert_new_dish(restaurant_id: int, dish_name: str, price: float) -> int:
+def insert_new_dish(restaurant_id: int, dish_name: str, price: float) -> None:
     """Insert new dish into Dishes table for the given RestaurantID.
     
     Args:
@@ -66,18 +115,13 @@ def insert_new_dish(restaurant_id: int, dish_name: str, price: float) -> int:
         price (float): Price of new dish
 
     Returns: 
-        The DishID for the inserted entry
+        None
     """
 
     conn = db.connect()
     query = "INSERT INTO Dishes (DishID, RestaurantID, DishName, Price, AvgRating) VALUES (1, {}, {}, {}, 0);".format(restaurant_id, dish_name, price)
     conn.execute(query)
-    query_results = conn.execute("Select LAST_INSERT_ID();")
-    query_results = [x for x in query_results]
-    new_id = query_results[0][0]
     conn.close()
-
-    return new_id
 
 def update_dish_entry(dish_id: int, restaurant_id: int, dish_name: str, price: float) -> None:
     """Updates dish entry based on given dish_id
@@ -139,7 +183,7 @@ def fetch_ratings(restaurant_id: int, dish_id: int) -> dict:
 
     return rating_list
 
-def insert_new_rating(restaurant_id: int, dish_id: int, rating: float, user_id: int) -> int:
+def insert_new_rating(restaurant_id: int, dish_id: int, rating: float, user_id: int) -> None:
     """Insert new dish into Dishes table for the given RestaurantID.
     
     Args:
@@ -149,18 +193,13 @@ def insert_new_rating(restaurant_id: int, dish_id: int, rating: float, user_id: 
         user_id (int): UserID of user who left this rating
 
     Returns: 
-        The RatingID for the inserted entry
+        None
     """
 
     conn = db.connect()
     query = "INSERT INTO Ratings (RatingID, UserRating, DishID, UserID, RestaurantID) VALUES (1, {}, {}, {}, {});".format(rating, dish_id, user_id, restaurant_id)
     conn.execute(query)
-    query_results = conn.execute("Select LAST_INSERT_ID();")
-    query_results = [x for x in query_results]
-    new_id = query_results[0][0]
     conn.close()
-
-    return new_id
 
 def update_rating_entry(rating_id: int, dish_id: int, restaurant_id: int, rating: float) -> None:
     """Updates dish entry based on given dish_id
@@ -196,25 +235,20 @@ def remove_rating_by_id(rating_id: int, dish_id: int, restaurant_id: int) -> Non
     conn.execute(query)
     conn.close()
 
-def insert_new_user(user_name: str) -> int:
+def insert_new_user(user_name: str) -> None:
     """Insert new user into Users table.
     
     Args:
         user_name (str): Name of new user
         
     Returns: 
-        The UserID for the inserted entry
+        None
     """
 
     conn = db.connect()
-    query = "INSERT INTO Users (UserID, UserName, NumRatings) VALUES (1, {}, 0);".format(user_name)
+    query = "INSERT INTO Users (UserName, NumRatings) VALUES ({}, 0);".format(user_name)
     conn.execute(query)
-    query_results = conn.execute("Select LAST_INSERT_ID();")
-    query_results = [x for x in query_results]
-    new_id = query_results[0][0]
     conn.close()
-
-    return new_id
 
 def fetch_user_name(user_id: int) -> str:
     """Fetches the UserName of the given UserID
