@@ -1,6 +1,14 @@
 """Defines all the functions related to the database"""
 from app import db
 
+# FUTURE IDEA: CREATE TRIGGER THAT DETECTS IF INSERTED/NEW ROW IS DUPLICATE
+# CRUD CHECKLIST (Each letter represents if that CRUD func was done for that table):
+#   - Restaurants: R (Can fully implement after demo)
+#   - Dishes: CRUD
+#   - Ratings: CRUD
+#   - Users: CRUD
+#   - Cities : X (Can fully implement after demo)
+
 def fetch_restaurants() -> dict:
     """Reads all restaurants listed in the todo table
 
@@ -9,7 +17,7 @@ def fetch_restaurants() -> dict:
     """
 
     conn = db.connect()
-    query_results = conn.execute("Select * from Restaurants;").fetchall()
+    query_results = conn.execute("SELECT * FROM Restaurants;").fetchall()
     conn.close()
     restaurant_list = []
     for result in query_results:
@@ -23,16 +31,20 @@ def fetch_restaurants() -> dict:
 
     return restaurant_list
 
-def fetch_menu(restaurant_id) -> dict:
-    """ Reads all menu items for the input restaurant_id
+def fetch_dishes(restaurant_id: int) -> dict:
+    """ Reads all dish items for the input restaurant_id
+
+    Args:
+        restaurant_id (int): Targeted RestaurantID
 
     Returns:
         A list of dictionaries
     """
     conn = db.connect()
-    query_results = conn.execute("Select * from Dishes where RestaurantID = " + restaurant_id + ";").fetchall()
+    query = "SELECT * FROM Dishes WHERE RestaurantID = {};".format(restaurant_id)
+    query_results = conn.execute(query).fetchall()
     conn.close()
-    menu_list = []
+    dish_list = []
     for result in query_results:
         item = {
             "DishID": result[0],
@@ -41,68 +53,211 @@ def fetch_menu(restaurant_id) -> dict:
             "Price": result[3],
             "AvgRating": result[4]
         }
-        menu_list.append(item)
+        dish_list.append(item)
 
-    return menu_list
+    return dish_list
 
-# def update_task_entry(task_id: int, text: str) -> None:
-#     """Updates task description based on given `task_id`
+def insert_new_dish(restaurant_id: int, dish_name: str, price: float) -> int:
+    """Insert new dish into Dishes table for the given RestaurantID.
+    
+    Args:
+        restaurant_id (int): Target RestaurantID
+        dish_name (str): Name of new dish
+        price (float): Price of new dish
 
-#     Args:
-#         task_id (int): Targeted task_id
-#         text (str): Updated description
+    Returns: 
+        The DishID for the inserted entry
+    """
 
-#     Returns:
-#         None
-#     """
+    conn = db.connect()
+    query = "INSERT INTO Dishes (DishID, RestaurantID, DishName, Price, AvgRating) VALUES (1, {}, {}, {}, 0);".format(restaurant_id, dish_name, price)
+    conn.execute(query)
+    query_results = conn.execute("Select LAST_INSERT_ID();")
+    query_results = [x for x in query_results]
+    new_id = query_results[0][0]
+    conn.close()
 
-#     conn = db.connect()
-#     query = 'Update tasks set task = "{}" where id = {};'.format(text, task_id)
-#     conn.execute(query)
-#     conn.close()
+    return new_id
 
+def update_dish_entry(dish_id: int, restaurant_id: int, dish_name: str, price: float) -> None:
+    """Updates dish entry based on given dish_id
 
-# def update_status_entry(task_id: int, text: str) -> None:
-#     """Updates task status based on given `task_id`
+    Args:
+        dish_id (int): Targeted DishID
+        restaurant_id (int): Targeted RestaurantID
+        dish_name (str): Updated name of dish (can be the same as the prior value)
+        price (float): Updated price of dish (can be the same as the prior value)
 
-#     Args:
-#         task_id (int): Targeted task_id
-#         text (str): Updated status
+    Returns:
+        None
+    """
 
-#     Returns:
-#         None
-#     """
+    conn = db.connect()
+    query = "UPDATE Dishes SET Name = {} Price = {} WHERE DishID = {} AND RestaurantID = {};".format(dish_name, price, dish_id, restaurant_id)
+    conn.execute(query)
+    conn.close()
 
-#     conn = db.connect()
-#     query = 'Update tasks set status = "{}" where id = {};'.format(text, task_id)
-#     conn.execute(query)
-#     conn.close()
+def remove_dish_by_id(dish_id: int, restaurant_id: int) -> None:
+    """ Remove entries based on DishID 
+    
+    Args:
+        dish_id (int): Targeted DishID
+        restaurant_id (int): Targeted RestaurantID
+    
+    Returns:
+        None
+    """
+    conn = db.connect()
+    query = "DELETE FROM Dishes WHERE DishID = {} AND RestaurantID = {};".format(dish_id, restaurant_id)
+    conn.execute(query)
+    conn.close()
 
+def fetch_ratings(restaurant_id: int, dish_id: int) -> dict:
+    """ Reads all rating items for the input restaurant_id and dish_id
 
-# def insert_new_task(text: str) ->  int:
-#     """Insert new task to todo table.
+    Args:
+        restaurant_id (int): Targeted RestaurantID
+        dish_id (int): Targeted DishID
 
-#     Args:
-#         text (str): Task description
+    Returns:
+        A list of dictionaries
+    """
+    conn = db.connect()
+    query = "SELECT * FROM Ratings WHERE RestaurantID = {} AND DishID = {};".format(restaurant_id, dish_id)
+    query_results = conn.execute(query).fetchall()
+    conn.close()
+    rating_list = []
+    for result in query_results:
+        item = {
+            "RatingID": result[0],
+            "UserRating": result[1],
+            "DishID": result[2],
+            "UserID": result[3],
+            "RestaurantID": result[4]
+        }
+        rating_list.append(item)
 
-#     Returns: The task ID for the inserted entry
-#     """
+    return rating_list
 
-#     conn = db.connect()
-#     query = 'Insert Into tasks (task, status) VALUES ("{}", "{}");'.format(
-#         text, "Todo")
-#     conn.execute(query)
-#     query_results = conn.execute("Select LAST_INSERT_ID();")
-#     query_results = [x for x in query_results]
-#     task_id = query_results[0][0]
-#     conn.close()
+def insert_new_rating(restaurant_id: int, dish_id: int, rating: float, user_id: int) -> int:
+    """Insert new dish into Dishes table for the given RestaurantID.
+    
+    Args:
+        restaurant_id (int): Target RestaurantID
+        dish_id (int): Target DishID
+        rating (float): User's rating of dish out of 5
+        user_id (int): UserID of user who left this rating
 
-#     return task_id
+    Returns: 
+        The RatingID for the inserted entry
+    """
 
+    conn = db.connect()
+    query = "INSERT INTO Ratings (RatingID, UserRating, DishID, UserID, RestaurantID) VALUES (1, {}, {}, {}, {});".format(rating, dish_id, user_id, restaurant_id)
+    conn.execute(query)
+    query_results = conn.execute("Select LAST_INSERT_ID();")
+    query_results = [x for x in query_results]
+    new_id = query_results[0][0]
+    conn.close()
 
-# def remove_task_by_id(task_id: int) -> None:
-#     """ remove entries based on task ID """
-#     conn = db.connect()
-#     query = 'Delete From tasks where id={};'.format(task_id)
-#     conn.execute(query)
-#     conn.close()
+    return new_id
+
+def update_rating_entry(rating_id: int, dish_id: int, restaurant_id: int, rating: float) -> None:
+    """Updates dish entry based on given dish_id
+
+    Args:
+        rating_id (int): Targeted RatingID
+        dish_id (int): Targeted DishID
+        restaurant_id (int): Targeted RestaurantID
+        rating (float): Updated rating (can be the same as the prior value, for now)
+
+    Returns:
+        None
+    """
+
+    conn = db.connect()
+    query = "UPDATE Ratings SET UserRating = {} WHERE DishID = {} AND RestaurantID = {} AND RatingID = {};".format(rating, dish_id, restaurant_id, rating)
+    conn.execute(query)
+    conn.close()
+
+def remove_rating_by_id(rating_id: int, dish_id: int, restaurant_id: int) -> None:
+    """ Remove entries based on RatingID 
+    
+    Args:
+        rating_id (int): Targeted RatingID
+        dish_id (int): Targeted DishID
+        restaurant_id (int): Targeted RestaurantID
+    
+    Returns:
+        None
+    """
+    conn = db.connect()
+    query = "DELETE FROM Ratings WHERE RatingID = {} AND DishID = {} AND RestaurantID = {};".format(rating_id, dish_id, restaurant_id)
+    conn.execute(query)
+    conn.close()
+
+def insert_new_user(user_name: str) -> int:
+    """Insert new user into Users table.
+    
+    Args:
+        user_name (str): Name of new user
+        
+    Returns: 
+        The UserID for the inserted entry
+    """
+
+    conn = db.connect()
+    query = "INSERT INTO Users (UserID, UserName, NumRatings) VALUES (1, {}, 0);".format(user_name)
+    conn.execute(query)
+    query_results = conn.execute("Select LAST_INSERT_ID();")
+    query_results = [x for x in query_results]
+    new_id = query_results[0][0]
+    conn.close()
+
+    return new_id
+
+def fetch_user_name(user_id: int) -> str:
+    """Fetches the UserName of the given UserID
+
+    Args:
+        user_id (int): Target UserID
+    
+    Returns:
+        The UserName as a string
+    """
+    conn = db.connect()
+    query = "SELECT UserName FROM Users WHERE UserID = {}".format(user_id)
+    query_results = conn.execute(query).fetchall()
+    conn.close()
+
+    return query_results[0]
+
+def update_user_entry(user_id: int, user_name: str) -> None:
+    """Updates user entry based on given user_id
+
+    Args:
+        user_id (int): Targeted UserID
+        user_name (str): Updated UserName
+
+    Returns:
+        None
+    """
+
+    conn = db.connect()
+    query = "UPDATE Users SET UserName = {} WHERE UserID = {};".format(user_name, user_id)
+    conn.execute(query)
+    conn.close()
+
+def remove_user_by_id(user_id: int) -> None:
+    """ Remove user based on UserID 
+    
+    Args:
+        user_id (int): Targeted UserID
+    
+    Returns:
+        None
+    """
+    conn = db.connect()
+    query = "DELETE FROM Users WHERE UserID = {};".format(user_id)
+    conn.execute(query)
+    conn.close()
