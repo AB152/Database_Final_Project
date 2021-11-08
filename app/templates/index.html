@@ -70,6 +70,7 @@
         <thead>
         <tr>
             <th class="restaurant">Name</th>
+            <th class="address">Address</th>
             <th class="zipcode">Zip Code</th>
             <th class="menu">Menu</th>
             <th class="update">Edit</th>
@@ -81,12 +82,12 @@
         {% for restaurant in restaurants %}
             <tr>
                 <td>{{restaurant.RestaurantName}}</td>
-
+                <td>{{restaurant.Address}}</td>
                 <td>{{restaurant.ZipCode}}</td>
 
                 <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{restaurant.RestaurantID}}">Menu</button></td>
                 
-                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="{{restaurant.RestaurantID}}" data-contentName="{{restaurant.RestaurantName}" data-contentZip="{{restaurant.ZipCode}" data-contentAddr="{{restaurant.Address}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="{{restaurant.RestaurantID}}" data-contentName="{{restaurant.RestaurantName}}" data-contentZip="{{restaurant.ZipCode}}" data-contentAddr="{{restaurant.Address}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
 
                 <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{restaurant.RestaurantID}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
             </tr>
