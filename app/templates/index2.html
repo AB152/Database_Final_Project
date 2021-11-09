@@ -31,7 +31,7 @@
         <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="New Restaurant">Add Restaurant</button>
         </div>
 
-        <form id="restaurant-form" action="{{url_for('create')}}" method="POST">
+        <form id="restaurant-form" method="POST">
             <div class="modal fade" id="restaurant-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -43,15 +43,15 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="restaurant-form-display-name">Name</span>
-                        <input type="text" class="form-control" name="rest-name" placeholder="Restaurant Name" aria-label="restaurant-name" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" id="rest-name" placeholder="Restaurant Name" aria-label="restaurant-name" aria-describedby="basic-addon1">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="restaurant-form-display-addr">Address</span>
-                        <input type="text" class="form-control" name="rest-addr" placeholder="Restaurant Address" aria-label="restaurant-addr" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" id="rest-addr" placeholder="Restaurant Address" aria-label="restaurant-addr" aria-describedby="basic-addon1">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="restaurant-form-display-zip">Zip Code</span>
-                        <input type="text" class="form-control" name="rest-zip" placeholder="Restaurant Zip Code" aria-label="restaurant-zip" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" id="rest-zip" placeholder="Restaurant Zip Code" aria-label="restaurant-zip" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -65,29 +65,6 @@
         </form>
 
     </div>
-    <!-- <div class="container">     -->
-        
-        <!-- Button trigger modal -->
-        <!-- <div style="text-align: right;">
-        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="New Restaurant">Add Restaurant</button>
-        </div> -->
-
-        <!-- <form id="restaurant-form" action="{{url_for('create')}}" method="POST"> -->
-
-            <!-- <span class="input-group-text" id="restaurant-form-display-name">Name</span> -->
-            <!-- <input type="text" name="rest-name" placeholder="Restaurant Name"> -->
-
-            <!-- <span class="input-group-text" id="restaurant-form-display-addr">Address</span> -->
-            <!-- <input type="text" name="rest-addr" placeholder="Restaurant Address"> -->
-
-            <!-- <span class="input-group-text" id="restaurant-form-display-zip">Zip Code</span> -->
-            <!-- <input type="text" name="rest-zip" placeholder="Restaurant Zip Code"> -->
-
-            <!-- <input type="submit" value="Submit"> -->
-
-        <!-- </form> -->
-
-    <!-- </div> -->
 
     <!--Restaurant Table-->
     <div class="container table-responsive">          

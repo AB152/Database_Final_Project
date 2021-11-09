@@ -22,28 +22,37 @@ $(document).ready(function () {
         }
     })
 
-    // Add or Update restaurant
-    $('#submit-restaurant').click(function () {
-        const rID = $('#restaurant-form-display').attr('restaurantID');
-        console.log($('#restaurant-modal').find('.form-control').val())
-        $.ajax({
-            type: 'POST',
-            url: rID ? '/edit/' + rID : '/create',
-            contentType: 'application/json;charset=UTF-8',
-            data: JSON.stringify({
-                'RestaurantName': $(document).getElementById("rest-name").value,
-                'ZipCode': $(document).getElementById("rest-zip").value,
-                'Address': $(document).getElementById("rest-addr").value
-            }),
-            success: function (res) {
-                console.log(res.response)
-                location.reload();
-            },
-            error: function () {
-                console.log('Error');
-            }
-        });
-    });
+    // Add restaurant
+    // $("#restaurant-form").submit(function(){
+    //$('#submit-restaurant').click(function () {
+        // console.log("hello")
+        //const rID = $('#restaurant-form-display').attr('restaurantID'); // need to fix this
+        //console.log($('#restaurant-modal').find('.form-control').val())
+        //console.log(rID)
+        // var formData = JSON.stringify($("#restaurant-form").serializeArray());
+        // console.log(formData)
+        // $.ajax({
+        //     type: 'POST',
+        //     url: '/create/',
+            // // contentType: 'application/json;charset=UTF-8',
+            // // data: JSON.stringify({
+            // //     'RestaurantName': $(document).getElementById("rest-name").value,
+            // // //     'ZipCode': $(document).getElementById("rest-zip").value,
+            // // //     'Address': $(document).getElementById("rest-addr").value
+            // // // }),
+            // // data: formData,
+            // success: function (res) {
+    //             console.log("here")
+    //             console.log(res.response)
+    //             location.reload();
+    //         },
+    //         error: function () {
+    //             console.log('Error');
+    //         }
+    //     });
+    // });
+
+    // Update restaurant
 
     // Remove restaurant
     $('.remove').click(function () {

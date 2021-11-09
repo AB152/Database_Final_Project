@@ -1,3 +1,4 @@
+# https://stackoverflow.com/questions/11556958/sending-data-from-html-form-to-a-python-script-in-flask
 """ Specifies routing for the application"""
 from flask import render_template, request, jsonify
 from app import app
@@ -48,10 +49,10 @@ def update(restaurant_id):
     return jsonify(result)
 
 
-@app.route("/create", methods=['POST'])
+@app.route("/create/", methods=['POST'])
 def create():
     """ recieves post requests to add new restaurant """
-    data = request.get_json()
-    db_helper.insert_new_restaurant(data['RestaurantName'], data['ZipCode'], data['Address'])
+    data = request.form
+    db_helper.insert_new_restaurant(data['rest-name'], data['rest-zip'], data['rest-addr'])
     result = {'success': True, 'response': 'Done'}
     return jsonify(result)
