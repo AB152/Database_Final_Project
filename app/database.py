@@ -9,6 +9,47 @@ from app import db
 #   - Users: CRUD
 #   - Cities : X (Can fully implement after demo)
 
+def fetch_queried_restaurants_2() -> dict:
+    """Reads all restaurants listed in the todo table
+
+    Returns:
+        A list of dictionaries
+    """
+    query_string = "SELECT DishName, AvgRating FROM (SELECT DishName, AvgRating, DishID FROM Restaurants NATURAL JOIN Dishes WHERE RestaurantID = 1 GROUP BY DishID HAVING AvgRating >= 4) AS Alias ORDER BY AvgRating DESC LIMIT 0, 15;"
+    conn = db.connect()
+    query_results = conn.execute(query_string).fetchall()
+    conn.close()
+    dish_list = []
+    for result in query_results:
+        item = {
+            "DishName": result[0],
+            "AvgRating": result[1]
+        }
+        dish_list.append(item)
+    print(dish_list)
+
+    return dish_list
+
+def fetch_queried_restaurants_1() -> dict:
+    """Reads all restaurants listed in the todo table
+
+    Returns:
+        A list of dictionaries
+    """
+    query_string = "SELECT Max(AvgRating) AS MaxRating, RestaurantName FROM Dishes NATURAL JOIN Restaurants GROUP BY RestaurantID ORDER BY MaxRating DESC;"
+    conn = db.connect()
+    query_results = conn.execute(query_string).fetchall()
+    conn.close()
+    restaurant_list = []
+    for result in query_results:
+        item = {
+            "MaxRating": result[0],
+            "RestaurantName": result[1]
+        }
+        restaurant_list.append(item)
+
+    return restaurant_list
+
 def fetch_restaurants() -> dict:
     """Reads all restaurants listed in the todo table
 
@@ -18,6 +59,31 @@ def fetch_restaurants() -> dict:
 
     conn = db.connect()
     query_results = conn.execute("SELECT * FROM Restaurants;").fetchall()
+    conn.close()
+    restaurant_list = []
+    for result in query_results:
+        item = {
+            "RestaurantID": result[0],
+            "RestaurantName": result[1],
+            "ZipCode": result[2],
+            "Address": result[3]
+        }
+        restaurant_list.append(item)
+
+    return restaurant_list
+
+def search_restaurants_by_name(search_query: str) -> dict:
+    """Searches database for restaurants with the desired name
+    
+    Args:
+        search_query (str): Name of restaurant to search
+
+    Returns:
+        List of dictionaries
+    """
+    conn = db.connect()
+    query = f"SELECT * FROM Restaurants WHERE RestaurantName LIKE \'%%{search_query}%%\';"
+    query_results = conn.execute(query).fetchall()
     conn.close()
     restaurant_list = []
     for result in query_results:
