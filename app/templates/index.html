@@ -19,51 +19,134 @@
     <body>
 
     <main role="main" class="container extra-bottom">
-      <h1 class="mt-5">TODO List Demo App</h1>
-      <p><mark>Do it now.</mark></p>
+      <h1 class="mt-5">What's Good Here?</h1>
+      <p><mark>Let's answer that question...</mark></p>
     </main>
     
-
-    <div class="container">    
-        
+    <div class="container">
         <!-- Button trigger modal -->
         <div style="text-align: right;">
-        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="New Task">Add Task</button>
+            <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#search-modal" data-source="Restaurant Search">Search Restaurants</button>
         </div>
-
         
-        <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="Label">Add a task</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+        <form id="search-form" action="{{url_for('searchpage')}}" method="POST">
+            <div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="Label">Search Restaurants</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-            <div class="modal-body">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="task-form-display">Task</span>
-                    <input type="text" class="form-control" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="search-form-display-name">Name</span>
+                            <input type="text" class="form-control" name="search-query" placeholder="Restaurant Name" aria-label="restaurant-name" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button value="Submit" type="submit" name="submit-search">Search</button>
+                    </div>
+                    </div>
+                    
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button id="submit-task" type="button" class="btn btn-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-        </div>
-
+        </form>
     </div>
 
-    <!--Todo Table-->
+    <div class="container"> 
+        <form action="{{url_for ('advq1') }}">
+            <div style="text-align: right;">
+                <button type="submit" class="btn btn-outline-info btn-sm">Adv Q 1</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container"> 
+        <form action="{{url_for ('advq2') }}">
+            <div style="text-align: right;">
+                <button type="submit" class="btn btn-outline-info btn-sm">Adv Q 2</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">    
+
+        <!-- Button trigger modal -->
+        <div style="text-align: right;">
+        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="New Restaurant">Add Restaurant</button>
+        </div>
+
+        <form id="restaurant-form" action="{{url_for('create')}}" method="POST">
+            <div class="modal fade" id="restaurant-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Label">Add a Restaurant</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="restaurant-form-display-name">Name</span>
+                        <input type="text" class="form-control" name="rest-name" placeholder="Restaurant Name" aria-label="restaurant-name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="restaurant-form-display-addr">Address</span>
+                        <input type="text" class="form-control" name="rest-addr" placeholder="Restaurant Address" aria-label="restaurant-addr" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="restaurant-form-display-zip">Zip Code</span>
+                        <input type="text" class="form-control" name="rest-zip" placeholder="Restaurant Zip Code" aria-label="restaurant-zip" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <!-- <button id="submit-restaurant" type="button" class="btn btn-primary">Save changes</button> -->
+                    <button value="Submit" type="submit" name="submit-add">Save Changes</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        </form>
+
+    </div>
+    
+    <!-- <div class="container">     -->
+        
+        <!-- Button trigger modal -->
+        <!-- <div style="text-align: right;">
+        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="New Restaurant">Add Restaurant</button>
+        </div> -->
+
+        <!-- <form id="restaurant-form" action="{{url_for('create')}}" method="POST"> -->
+
+            <!-- <span class="input-group-text" id="restaurant-form-display-name">Name</span> -->
+            <!-- <input type="text" name="rest-name" placeholder="Restaurant Name"> -->
+
+            <!-- <span class="input-group-text" id="restaurant-form-display-addr">Address</span> -->
+            <!-- <input type="text" name="rest-addr" placeholder="Restaurant Address"> -->
+
+            <!-- <span class="input-group-text" id="restaurant-form-display-zip">Zip Code</span> -->
+            <!-- <input type="text" name="rest-zip" placeholder="Restaurant Zip Code"> -->
+
+            <!-- <input type="submit" value="Submit"> -->
+
+        <!-- </form> -->
+
+    <!-- </div> -->
+
+    <!--Restaurant Table-->
     <div class="container table-responsive">          
     <table class="table">
         <thead>
         <tr>
-            <th class="task-id">#</th>
-            <th class="task">Task Name</th>
-            <th class="status">Status</th>
+            <th class="restaurant">Name</th>
+            <th class="address">Address</th>
+            <th class="zipcode">Zip Code</th>
+            <th class="menu">Menu</th>
             <th class="update">Edit</th>
             <th class="update">Remove</th>
         </tr>
@@ -72,22 +155,50 @@
         <tbody>
         {% for restaurant in restaurants %}
             <tr>
-                <td>{{restaurant.RestaurantID}}</td>
                 <td>{{restaurant.RestaurantName}}</td>
+                <td>{{restaurant.Address}}</td>
+                <td>{{restaurant.ZipCode}}</td>
 
-                {% if item.status == "In Progress" %}
-                    <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                {%endif%}
-                {% if item.status == "Todo" %}
-                    <td><button type="button" class="btn btn-outline-secondary btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                {%endif%}
-                {% if item.status == "Complete" %}
-                    <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                {%endif%}
+                <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{restaurant.RestaurantID}}">Menu</button></td>
                 
-                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.id}}" data-content="{{item.task}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-edit-modal-{{restaurant.RestaurantID}}" data-source="{{restaurant.RestaurantID}}" data-contentName="{{restaurant.RestaurantName}}" data-contentZip="{{restaurant.ZipCode}}" data-contentAddr="{{restaurant.Address}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+            
+                    <form id="restaurant-edit-form-{{restaurant.RestaurantID}}" action="{{url_for('update', restaurant_id=restaurant.RestaurantID)}}" method="POST">
+                        <div class="modal fade" id="restaurant-edit-modal-{{restaurant.RestaurantID}}" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="Label">Edit Restaurant</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+            
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="restaurant-form-display-name">Name</span>
+                                    <input type="text" class="form-control" name="rest-name" placeholder="Restaurant Name" aria-label="restaurant-name" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="restaurant-form-display-addr">Address</span>
+                                    <input type="text" class="form-control" name="rest-addr" placeholder="Restaurant Address" aria-label="restaurant-addr" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="restaurant-form-display-zip">Zip Code</span>
+                                    <input type="text" class="form-control" name="rest-zip" placeholder="Restaurant Zip Code" aria-label="restaurant-zip" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <!-- <button id="submit-restaurant" type="button" class="btn btn-primary">Save changes</button> -->
+                                <button value="Submit" type="submit" name="submit-edit">Save Changes</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+            
 
-                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.id}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+
+                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{restaurant.RestaurantID}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
             </tr>
         {% endfor %}
         
@@ -99,7 +210,7 @@
 
     <footer class="footer">
       <div class="container">
-            <p class="text-muted"><small>App developed for CS411 UIUC by @tcheng10</small></p>
+            <p class="text-muted"><small>Team 53: The Fantastic Four</small></p>
       </div>
     </footer>
   </body>
