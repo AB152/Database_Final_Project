@@ -62,7 +62,7 @@ def update_restaurant_entry(restaurant_id: int, restaurant_name: str, zip_code: 
     """
 
     conn = db.connect()
-    query = "UPDATE Restaurants SET RestaurantName = \'{}\' ZipCode = {} Address = \'{}\' WHERE RestaurantID = {};".format(restaurant_name, zip_code, address, restaurant_id)
+    query = "UPDATE Restaurants SET RestaurantName = \'{}\', ZipCode = {}, Address = \'{}\' WHERE RestaurantID = {};".format(restaurant_name, zip_code, address, restaurant_id)
     conn.execute(query)
     conn.close()
 
@@ -137,7 +137,7 @@ def update_dish_entry(dish_id: int, restaurant_id: int, dish_name: str, price: f
     """
 
     conn = db.connect()
-    query = "UPDATE Dishes SET Name = \'{}\' Price = {} WHERE DishID = {} AND RestaurantID = {};".format(dish_name, price, dish_id, restaurant_id)
+    query = "UPDATE Dishes SET Name = \'{}\', Price = {} WHERE DishID = {} AND RestaurantID = {};".format(dish_name, price, dish_id, restaurant_id)
     conn.execute(query)
     conn.close()
 

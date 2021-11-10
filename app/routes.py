@@ -31,21 +31,10 @@ def delete(restaurant_id):
 @app.route("/edit/<int:restaurant_id>", methods=['POST'])
 def update(restaurant_id):
     """ recieved post requests for restaurant updates """
-
-    data = request.get_json()
-
-    try:
-        if "status" in data:
-            db_helper.update_restaurant_entry(restaurant_id, data["status"])
-            result = {'success': True, 'response': 'Status Updated'}
-        elif "description" in data:
-            db_helper.update_restaurant_entry(restaurant_id, data["description"])
-            result = {'success': True, 'response': 'Task Updated'}
-        else:
-            result = {'success': True, 'response': 'Nothing Updated'}
-    except:
-        result = {'success': False, 'response': 'Something went wrong'}
-
+    print(restaurant_id)
+    data = request.form
+    db_helper.update_restaurant_entry(restaurant_id, data['rest-name'], data['rest-zip'], data['rest-addr'])
+    result = {'success': True, 'response': 'Status Updated'}
     return jsonify(result)
 
 
