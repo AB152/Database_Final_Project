@@ -43,38 +43,6 @@ $(document).ready(function () {
         }
     })
 
-    // Add restaurant
-    // $("#restaurant-form").submit(function(){
-    //$('#submit-restaurant').click(function () {
-        // console.log("hello")
-        //const rID = $('#restaurant-form-display').attr('restaurantID'); // need to fix this
-        //console.log($('#restaurant-modal').find('.form-control').val())
-        //console.log(rID)
-        // var formData = JSON.stringify($("#restaurant-form").serializeArray());
-        // console.log(formData)
-        // $.ajax({
-        //     type: 'POST',
-        //     url: '/create/',
-            // // contentType: 'application/json;charset=UTF-8',
-            // // data: JSON.stringify({
-            // //     'RestaurantName': $(document).getElementById("rest-name").value,
-            // // //     'ZipCode': $(document).getElementById("rest-zip").value,
-            // // //     'Address': $(document).getElementById("rest-addr").value
-            // // // }),
-            // // data: formData,
-            // success: function (res) {
-    //             console.log("here")
-    //             console.log(res.response)
-    //             location.reload();
-    //         },
-    //         error: function () {
-    //             console.log('Error');
-    //         }
-    //     });
-    // });
-
-    // Update restaurant
-
     // Remove restaurant
     $('.remove').click(function () {
         const remove = $(this)
@@ -91,34 +59,5 @@ $(document).ready(function () {
         });
     });
 
-    // Menu button
-    // $('.state').click(function () {
-    //     const state = $(this)
-    //     const tID = state.data('source')
-    //     const new_state
-    //     if (state.text() === "In Progress") {
-    //         new_state = "Complete"
-    //     } else if (state.text() === "Complete") {
-    //         new_state = "Todo"
-    //     } else if (state.text() === "Todo") {
-    //         new_state = "In Progress"
-    //     }
-
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/edit/' + tID,
-    //         contentType: 'application/json;charset=UTF-8',
-    //         data: JSON.stringify({
-    //             'status': new_state
-    //         }),
-    //         success: function (res) {
-    //             console.log(res)
-    //             location.reload();
-    //         },
-    //         error: function () {
-    //             console.log('Error');
-    //         }
-    //     });
-    // });
-
+    
 });

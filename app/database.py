@@ -72,6 +72,31 @@ def fetch_restaurants() -> dict:
 
     return restaurant_list
 
+def fetch_restaurant_info(restaurant_id: int) -> dict:
+    """Searches database for restaurants with the desired name
+    
+    Args:
+        restaurant_id (int): Targeted RestaurantID
+
+    Returns:
+        List of dictionaries
+    """
+    conn = db.connect()
+    query = f"SELECT * FROM Restaurants WHERE RestaurantID = {restaurant_id};"
+    query_results = conn.execute(query).fetchall()
+    conn.close()
+    restaurant_list = []
+    for result in query_results:
+        item = {
+            "RestaurantID": result[0],
+            "RestaurantName": result[1],
+            "ZipCode": result[2],
+            "Address": result[3]
+        }
+        restaurant_list.append(item)
+
+    return restaurant_list
+
 def search_restaurants_by_name(search_query: str) -> dict:
     """Searches database for restaurants with the desired name
     
@@ -203,7 +228,7 @@ def update_dish_entry(dish_id: int, restaurant_id: int, dish_name: str, price: f
     """
 
     conn = db.connect()
-    query = "UPDATE Dishes SET Name = \'{}\', Price = {} WHERE DishID = {} AND RestaurantID = {};".format(dish_name, price, dish_id, restaurant_id)
+    query = "UPDATE Dishes SET DishName = \'{}\', Price = {} WHERE DishID = {} AND RestaurantID = {};".format(dish_name, price, dish_id, restaurant_id)
     conn.execute(query)
     conn.close()
 
