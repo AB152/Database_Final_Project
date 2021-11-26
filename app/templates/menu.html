@@ -23,14 +23,14 @@
       <p><mark>{{restaurant.Address}}</mark></p>
     </main>
 
-    <!-- New Dish Button -->>
-    <div class="container">    
-
-        <!-- Button trigger modal -->
-        <div style="text-align: right;">
+    <!-- Button Group -->
+    <div style="text-align: center;">
+        <a href="{{url_for('homepage')}}"><button type="button" class="btn btn-outline-info btn-sm">Back</button></a>
         <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="New Dish">Add Dish</button>
-        </div>
+    </div>
 
+    <!-- New Dish Modal -->
+    <div class="container">
         <form id="dish-form" action="{{url_for('create')}}" method="POST">
             <div class="modal fade" id="dish-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
             <div class="modal-dialog">
@@ -95,11 +95,11 @@
                             <div class="modal-body">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="dish-form-display-name">Name</span>
-                                    <input type="text" class="form-control" name="dish-name" placeholder="Dish Name" aria-label="dish-name" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" name="dish-name" placeholder="Dish Name" value="{{dish.DishName}}" aria-label="dish-name" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="dish-form-display-price">Price</span>
-                                    <input type="text" class="form-control" name="dish-price" placeholder="Dish Price" aria-label="dish-price" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" name="dish-price" placeholder="Dish Price" value="{{dish.Price}}" aria-label="dish-price" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="modal-footer">

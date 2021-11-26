@@ -20,18 +20,17 @@
 
     <main role="main" class="container extra-bottom">
       <h1 class="mt-5">What's Good Here?</h1>
-      <p><mark>Let's answer that question...</mark></p>
+      <p><mark>Searching for restaurants named like "{{query}}"</mark></p>
     </main>
-    
-    <!-- Button Group -->
+
+    <!-- Button group -->
     <div style="text-align: center;">
+        <a href="{{url_for('homepage')}}"><button type="button" class="btn btn-outline-info btn-sm">Back</button></a>
         <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#search-modal" data-source="Restaurant Search">Search Restaurants</button>
-        <a href="{{url_for ('advq1') }}"><button type="submit" class="btn btn-outline-info btn-sm">Adv Q 1</button></a>
-        <a href="{{url_for ('advq2') }}"><button type="submit" class="btn btn-outline-info btn-sm">Adv Q 2</button></a>
         <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="New Restaurant">Add Restaurant</button>
     </div>
 
-    <!-- Search button Modal -->
+    <!-- Search Button Modal -->
     <div class="container">
         <form id="search-form" action="{{url_for('searchpage')}}" method="POST">
             <div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
@@ -94,7 +93,6 @@
             </div>
             </div>
         </form>
-
     </div>
 
     <!--Restaurant Table-->
@@ -147,6 +145,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <!-- <button id="submit-restaurant" type="button" class="btn btn-primary">Save changes</button> -->
                                 <button value="Submit" class="btn btn-primary" type="submit" name="submit-edit">Save Changes</button>
                             </div>
                             </div>
@@ -154,8 +153,9 @@
                         </div>
                     </form>
             
-                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{restaurant.RestaurantID}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
 
+
+                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{restaurant.RestaurantID}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
             </tr>
         {% endfor %}
         

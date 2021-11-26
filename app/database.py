@@ -26,8 +26,6 @@ def fetch_queried_restaurants_2() -> dict:
             "AvgRating": result[1]
         }
         dish_list.append(item)
-    print(dish_list)
-
     return dish_list
 
 def fetch_queried_restaurants_1() -> dict:

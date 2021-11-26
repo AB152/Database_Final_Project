@@ -3,7 +3,6 @@ $(document).ready(function () {
     // Remove dish
     $('.remove').click(function () {
         const remove = $(this)
-        console.log(remove);
         $.ajax({
             type: 'POST',
             url: '/restaurant/' + remove.data('restid') + '/delete/' + remove.data('source'),

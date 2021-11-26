@@ -28,7 +28,7 @@ def searchpage():
     """ returns rendered search page (list of restaurants) """
     data = request.form.get('search-query')
     restaurant_list = db_helper.search_restaurants_by_name(str(data))
-    return render_template("index.html", restaurants=restaurant_list)
+    return render_template("search.html", restaurants=restaurant_list, query=data)
 
 @app.route("/delete/<int:restaurant_id>", methods=['POST'])
 def delete(restaurant_id):
