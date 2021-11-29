@@ -75,7 +75,7 @@ def update_dish(restaurant_id, dish_id):
 def create_dish(restaurant_id):
     """creates dish at target restaurant and refreshes page"""
     data = request.form
-    db_helper.insert_new_dish(data['dish-name'], data['dish-price'])
+    db_helper.insert_new_dish(restaurant_id, data['dish-name'], data['dish-price'])
     return redirect(url_for("menupage", restaurant_id=restaurant_id))
 
 @app.route("/restaurant/<int:restaurant_id>/delete/<int:dish_id>", methods=["POST"])

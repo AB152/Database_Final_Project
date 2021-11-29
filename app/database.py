@@ -2,12 +2,6 @@
 from app import db
 
 # FUTURE IDEA: CREATE TRIGGER THAT DETECTS IF INSERTED/NEW ROW IS DUPLICATE
-# CRUD CHECKLIST (Each letter represents if that CRUD func was done for that table):
-#   - Restaurants: CRUD
-#   - Dishes: CRUD
-#   - Ratings: CRUD
-#   - Users: CRUD
-#   - Cities : X (Can fully implement after demo)
 
 def fetch_queried_restaurants_2() -> dict:
     """Reads all restaurants listed in the todo table
@@ -304,7 +298,7 @@ def update_rating_entry(rating_id: int, dish_id: int, restaurant_id: int, rating
     """
 
     conn = db.connect()
-    query = "UPDATE Ratings SET UserRating = {} WHERE DishID = {} AND RestaurantID = {} AND RatingID = {};".format(rating, dish_id, restaurant_id, rating)
+    query = "UPDATE Ratings SET UserRating = {} WHERE DishID = {} AND RestaurantID = {} AND RatingID = {};".format(rating, dish_id, restaurant_id, rating_id)
     conn.execute(query)
     conn.close()
 
@@ -384,3 +378,9 @@ def remove_user_by_id(user_id: int) -> None:
     query = "DELETE FROM Users WHERE UserID = {};".format(user_id)
     conn.execute(query)
     conn.close()
+
+def check_password(attempt: str) -> bool:
+    """Check the password used for addition, editing, and removal"""
+    if attempt != "whatsbadhere":
+        return False
+    return True

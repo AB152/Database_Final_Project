@@ -26,12 +26,12 @@
     <!-- Button Group -->
     <div style="text-align: center;">
         <a href="{{url_for('homepage')}}"><button type="button" class="btn btn-outline-info btn-sm">Back</button></a>
-        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#restaurant-modal" data-source="New Dish">Add Dish</button>
+        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#dish-modal" data-source="New Dish">Add Dish</button>
     </div>
 
     <!-- New Dish Modal -->
     <div class="container">
-        <form id="dish-form" action="{{url_for('create')}}" method="POST">
+        <form id="dish-form" action="{{url_for('create_dish', restaurant_id=restaurant.RestaurantID)}}" method="POST">
             <div class="modal fade" id="dish-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
