@@ -73,6 +73,7 @@
             <th class="dish">Dish Name</th>
             <th class="rating">Rating</th>
             <th class="price">Price</th>
+            <th class="add-rating">Add/Edit Rating</th>
             <th class="edit">Edit</th>
             <th class="remove">Remove</th>
         </tr>
@@ -84,6 +85,39 @@
                 <td>{{dish.DishName}}</td>
                 <td>{{dish.AvgRating}}</td>
                 <td>{{dish.Price}}</td>
+
+                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#dish-rating-modal-{{dish.DishID}}" data-source="{{dish.DishID}}" data-contentName="{{dish.DishName}}"><i class="fa fa-star fa-1" aria-hidden="true"></i></button></td>
+                    <form id="dish-rating-form-{{dish.DishID}}" action="{{url_for('create_rating', restaurant_id=restaurant.RestaurantID, dish_id=dish.DishID)}}" method="POST">
+                        <div class="modal fade" id="dish-rating-modal-{{dish.DishID}}" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="Label">Add/Edit Rating for {{dish.DishName}} at {{restaurant.RestaurantName}}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+            
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="rating-form-display-rating">Rating</span>
+                                    <input type="text" class="form-control" name="rating-score" placeholder="Rating out of 5" aria-label="rating-score" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="rating-form-display-user">Your User Number</span>
+                                    <input type="text" class="form-control" name="rating-user-id" placeholder="Your given user number" aria-label="rating-user-id" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="rating-form-display-pass">Password</span>
+                                    <input type="password" class="form-control" name="rating-pass" placeholder="Admin Password" aria-label="dish-pass" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button value="Submit" class="btn btn-primary" type="submit" name="submit-edit">Submit Rating</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
 
                 <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#dish-edit-modal-{{dish.DishID}}" data-source="{{dish.DishID}}" data-contentName="{{dish.DishName}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
             

@@ -101,3 +101,17 @@ def delete_dish(restaurant_id, dish_id):
     except:
         result = {'success': False, 'response': 'Something went wrong'}
     return redirect(url_for("menupage", restaurant_id=restaurant_id))
+
+@app.route("/restaurant/<int:restaurant_id>/rate/<int:dish_id>", methods=["POST"])
+def create_rating(restaurant_id, dish_id):
+    """sends submitted rating to the DB"""
+    data = request.form
+    adjusted_score = float(data['rating-score'])
+    if not db_helper.check_password(data['rating-pass']):
+        return render_template("bad_password.html")
+    if adjusted_score < 0:
+        adjusted_score = 0
+    elif adjusted_score > 5:
+        adjusted_score = 5
+    db_helper.insert_new_rating(restaurant_id, dish_id, adjusted_score, data['rating-user-id'])
+    return redirect(url_for("menupage", restaurant_id=restaurant_id))

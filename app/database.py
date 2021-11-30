@@ -1,7 +1,7 @@
 """Defines all the functions related to the database"""
 from app import db
 
-# FUTURE IDEA: CREATE TRIGGER THAT DETECTS IF INSERTED/NEW ROW IS DUPLICATE
+# TODO: CREATE TRIGGER THAT DETECTS IF NEW RATING IS FROM THE SAME USER
 
 def fetch_queried_restaurants_2() -> dict:
     """Reads all restaurants listed in the todo table
