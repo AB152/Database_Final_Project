@@ -4,7 +4,7 @@ from app import db
 # TODO: CREATE TRIGGER THAT DETECTS IF NEW RATING IS FROM THE SAME USER
 
 def fetch_queried_restaurants_2() -> dict:
-    """Reads all restaurants listed in the todo table
+    """Performs advanced query 2
 
     Returns:
         A list of dictionaries
@@ -23,7 +23,7 @@ def fetch_queried_restaurants_2() -> dict:
     return dish_list
 
 def fetch_queried_restaurants_1() -> dict:
-    """Reads all restaurants listed in the todo table
+    """Performs advanced query 1
 
     Returns:
         A list of dictionaries
@@ -43,7 +43,7 @@ def fetch_queried_restaurants_1() -> dict:
     return restaurant_list
 
 def fetch_restaurants() -> dict:
-    """Reads all restaurants listed in the todo table
+    """Reads all restaurants listed in the Restaurants table
 
     Returns:
         A list of dictionaries
@@ -183,7 +183,9 @@ def fetch_dishes(restaurant_id: int) -> dict:
             "RestaurantID": result[1],
             "DishName": result[2],
             "Price": result[3],
-            "AvgRating": result[4]
+            "AvgRating": result[4],
+            "MedRating": result[5],
+            "BestRating": result[6]
         }
         dish_list.append(item)
 
@@ -269,6 +271,9 @@ def fetch_ratings(restaurant_id: int, dish_id: int) -> dict:
 def insert_new_rating(restaurant_id: int, dish_id: int, rating: float, user_id: int) -> None:
     """Insert new dish into Dishes table for the given RestaurantID.
     
+    NOTE: SQLAlchemy requires a raw connection and a cursor object to call a stored procedure.
+          Remember that raw connections are transactions that need committing.
+
     Args:
         restaurant_id (int): Target RestaurantID
         dish_id (int): Target DishID
@@ -282,6 +287,12 @@ def insert_new_rating(restaurant_id: int, dish_id: int, rating: float, user_id: 
     conn = db.connect()
     query = "INSERT INTO Ratings (RatingID, UserRating, DishID, UserID, RestaurantID) VALUES (1, {}, {}, {}, {});".format(rating, dish_id, user_id, restaurant_id)
     conn.execute(query)
+    conn.close()
+    conn = db.raw_connection()
+    cursor_obj = conn.cursor()
+    cursor_obj.callproc("RatingsUpdateProc", [restaurant_id, dish_id, user_id])
+    conn.commit()
+    cursor_obj.close()
     conn.close()
 
 def update_rating_entry(rating_id: int, dish_id: int, restaurant_id: int, rating: float) -> None:

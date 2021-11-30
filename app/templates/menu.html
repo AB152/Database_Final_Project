@@ -71,7 +71,9 @@
         <thead>
         <tr>
             <th class="dish">Dish Name</th>
-            <th class="rating">Rating</th>
+            <th class="avgRating">Average Rating</th>
+            <th class="medRating">Median Rating</th>
+            <th class="bestRating">BestRating Score</th>
             <th class="price">Price</th>
             <th class="add-rating">Add/Edit Rating</th>
             <th class="edit">Edit</th>
@@ -84,6 +86,8 @@
             <tr>
                 <td>{{dish.DishName}}</td>
                 <td>{{dish.AvgRating}}</td>
+                <td>{{dish.MedRating}}</td>
+                <td>{{dish.BestRating}}</td>
                 <td>{{dish.Price}}</td>
 
                 <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#dish-rating-modal-{{dish.DishID}}" data-source="{{dish.DishID}}" data-contentName="{{dish.DishName}}"><i class="fa fa-star fa-1" aria-hidden="true"></i></button></td>
