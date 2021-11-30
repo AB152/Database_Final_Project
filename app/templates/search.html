@@ -83,6 +83,10 @@
                         <span class="input-group-text" id="restaurant-form-display-zip">Zip Code</span>
                         <input type="text" class="form-control" name="rest-zip" placeholder="Restaurant Zip Code" aria-label="restaurant-zip" aria-describedby="basic-addon1">
                     </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="restaurant-form-display-password">Password</span>
+                        <input type="password" class="form-control" name="rest-pass" placeholder="Admin Password" aria-label="restaurant-password" aria-describedby="basic-addon1">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -142,6 +146,10 @@
                                     <span class="input-group-text" id="restaurant-form-display-zip">Zip Code</span>
                                     <input type="text" class="form-control" name="rest-zip" placeholder="Restaurant Zip Code" value="{{restaurant.ZipCode}}" aria-label="restaurant-zip" aria-describedby="basic-addon1">
                                 </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="restaurant-form-display-password">Password</span>
+                                    <input type="password" class="form-control" name="rest-pass" placeholder="Admin Password" aria-label="restaurant-password" aria-describedby="basic-addon1">
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -153,9 +161,29 @@
                         </div>
                     </form>
             
-
-
-                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{restaurant.RestaurantID}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+                    <td><button class="btn btn-outline-secondary btn-sm remove" data-bs-toggle="modal" data-bs-target="#restaurant-delete-modal-{{restaurant.RestaurantID}}" data-source="{{restaurant.RestaurantID}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+                    <form id="restaurant-delete-form-{{restaurant.RestaurantID}}" action="{{url_for('delete', restaurant_id=restaurant.RestaurantID)}}" method="POST">
+                        <div class="modal fade" id="restaurant-delete-modal-{{restaurant.RestaurantID}}" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="Label">Delete Restaurant</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="restaurant-form-display-password">Password</span>
+                                    <input type="password" class="form-control" name="rest-pass" placeholder="Admin Password" aria-label="restaurant-password" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button value="Submit" class="btn btn-primary" type="submit" name="submit-delete">Delete Restaurant</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
             </tr>
         {% endfor %}
         
