@@ -285,7 +285,15 @@ def insert_new_rating(restaurant_id: int, dish_id: int, rating: float, user_id: 
     """
 
     conn = db.connect()
-    query = "INSERT INTO Ratings (RatingID, UserRating, DishID, UserID, RestaurantID) VALUES (1, {}, {}, {}, {});".format(rating, dish_id, user_id, restaurant_id)
+    # Check if the user has already rated the dish at this restaurant 
+    query = f"SELECT RatingID FROM Ratings WHERE RestaurantID = {restaurant_id} AND DishID = {dish_id} AND UserID = {user_id}"
+    query_results = conn.execute(query).fetchall()
+    # Insert into the table only if the user hasn't, update existing rating otherwise
+    if len(query_results) == 0:
+        query = "INSERT INTO Ratings (RatingID, UserRating, DishID, UserID, RestaurantID) VALUES (1, {}, {}, {}, {});".format(rating, dish_id, user_id, restaurant_id)
+    else:
+        target_rID = query_results[0][0]
+        query = f"UPDATE Ratings SET UserRating = {rating} WHERE RatingID = {target_rID} AND RestaurantID = {restaurant_id} AND DishID = {dish_id} AND UserID = {user_id}"
     conn.execute(query)
     conn.close()
     conn = db.raw_connection()
