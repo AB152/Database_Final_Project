@@ -49,7 +49,7 @@ Setting up the deployment
 ```bash
 curl https://sdk.cloud.google.com | bash
 gcloud components install app-engine-python
-gcloud config set project cs411-sp21
+gcloud config set project [PROJECT_ID]
 gcloud auth login
 gcloud app deploy
 ```
