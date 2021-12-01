@@ -14,11 +14,12 @@ def init_connection_engine():
         pool -- a connection to GCP MySQL
     """
 
-
     # detect env local or gcp
+    local_machine = False
     if os.environ.get('GAE_ENV') != 'standard':
         try:
             variables = load(open("app.yaml"), Loader=Loader)
+            local_machine = True
         except OSError as e:
             print("Make sure you have the app.yaml file setup")
             os.exit()
@@ -27,15 +28,31 @@ def init_connection_engine():
         for var in env_variables:
             os.environ[var] = env_variables[var]
 
-    pool = sqlalchemy.create_engine(
-        sqlalchemy.engine.url.URL(
-            drivername="mysql+pymysql",
-            username=os.environ.get('MYSQL_USER'),
-            password=os.environ.get('MYSQL_PASSWORD'),
-            database=os.environ.get('MYSQL_DB'),
-            host=os.environ.get('MYSQL_HOST')
+    if local_machine:
+        pool = sqlalchemy.create_engine(
+            sqlalchemy.engine.url.URL(
+                drivername="mysql+pymysql",
+                username=os.environ.get('MYSQL_USER'),
+                password=os.environ.get('MYSQL_PASSWORD'),
+                database=os.environ.get('MYSQL_DB'),
+                host=os.environ.get('MYSQL_HOST')
+            ),
         )
-    )
+    # GCP App Engine connects to its Cloud SQL via a unix socket instead
+    else:
+        pool = sqlalchemy.create_engine(
+            sqlalchemy.engine.url.URL(
+                drivername="mysql+pymysql",
+                username=os.environ.get('MYSQL_USER'),
+                password=os.environ.get('MYSQL_PASSWORD'),
+                database=os.environ.get('MYSQL_DB'),
+                query={
+                    "unix_socket": "{}/{}".format(
+                    os.environ.get("DB_SOCKET_DIR", "/cloudsql"),  # e.g. "/cloudsql"
+                    os.environ["INSTANCE_CONNECTION_NAME"])  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
+                }
+            ),
+        )
 
     return pool
 
