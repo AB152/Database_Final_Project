@@ -115,3 +115,9 @@ def create_rating(restaurant_id, dish_id):
         adjusted_score = 5
     db_helper.insert_new_rating(restaurant_id, dish_id, adjusted_score, data['rating-user-id'])
     return redirect(url_for("menupage", restaurant_id=restaurant_id))
+
+@app.route("/critics")
+def critics_page():
+    """returns list of critics"""
+    user_list = db_helper.fetch_users()
+    return render_template("critics.html", users=user_list)

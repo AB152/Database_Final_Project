@@ -352,21 +352,29 @@ def insert_new_user(user_name: str) -> None:
     conn.execute(query)
     conn.close()
 
-def fetch_user_name(user_id: int) -> str:
-    """Fetches the UserName of the given UserID
+def fetch_users() -> dict:
+    """Fetches all of the Users in the Users table
 
     Args:
-        user_id (int): Target UserID
+        None
     
     Returns:
-        The UserName as a string
+        A list of dictionaries
     """
     conn = db.connect()
-    query = "SELECT UserName FROM Users WHERE UserID = {}".format(user_id)
+    query = "SELECT * FROM Users;"
     query_results = conn.execute(query).fetchall()
     conn.close()
+    user_list = []
+    for result in query_results:
+        item = {
+            "UserID": result[0],
+            "UserName": result[1],
+            "NumRatings": result[2],
+        }
+        user_list.append(item)
 
-    return query_results[0]
+    return user_list
 
 def update_user_entry(user_id: int, user_name: str) -> None:
     """Updates user entry based on given user_id
