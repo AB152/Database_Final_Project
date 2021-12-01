@@ -1,38 +1,37 @@
-# A Todo List demo App
-This is a todo list demo designed for CS411. 
-# Tutorial
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sY1lLGe7ECA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-A comprehensive writeup is avaliable [here](https://tichung.com/blog/2021/20200323_flask/).
+# What's Good Here
+This is a web app that shows different restaurants and their dishes. Authorized users are allowed to rate these dishes and contribute to the database. 
 
 ## Requirements
 ```
 python >= 3.5
 ```
 
-## Getting started
+## Getting Started
 ```bash
-git clone https://github.com/a2975667/flask-gcp-mysql-demo.git
-cd flask-gcp-mysql-demo
+git clone https://github-dev.cs.illinois.edu/fmoy3/Whats-Good-Here.git whatsgoodhere
+cd whatsgoodhere
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 export FLASK_APP=app
+# uncomment the below line to have Flask automatically refresh after modifying a Python file
+# export FLASK_DEBUG=1
 flask run
 ```
 
-## Setting up GCP
-Create a `app.yaml` file in the root folder with the following content:
+## Preparing for GCP Deployment
+Create a `app.yaml` file in the root folder with the following contents:
 ```yaml
 runtime: python38 # or another supported version
 
 instance_class: F1
 
 env_variables:
-  MYSQL_USER: <user_name> # please put in your credentials
-  MYSQL_PASSWORD: <user_pw> # please put in your credentials
-  MYSQL_DB: <database_name> # please put in your credentials
-  MYSQL_HOST: <database_ip> # please put in your credentials
+  MYSQL_USER: <user_name> # username on the GCP MySQL instance
+  MYSQL_PASSWORD: <user_pw> # password for the above GCP MySQL instance user
+  MYSQL_DB: <database_name> # name of database on GCP MySQL instance
+  MYSQL_HOST: <database_ip> # public IP of the GCP MySQL instance
+  INSTANCE_CONNECTION_NAME: <instance_connection_name> # the instance's connection name
 
 handlers:
 # Matches requests to /images/... to files in static/images/...

@@ -398,8 +398,14 @@ def remove_user_by_id(user_id: int) -> None:
     conn.execute(query)
     conn.close()
 
-def check_password(attempt: str) -> bool:
-    """Check the password used for addition, editing, and removal"""
+def check_password(attempt: str, user_id: int) -> bool:
+    """Check the UserID and password used for addition, editing, and removal"""
     if attempt != "whatsbadhere":
+        return False
+    conn = db.connect()
+    query = f"SELECT UserName FROM Users WHERE UserID = {user_id};"
+    query_results = conn.execute(query).fetchall()
+    conn.close()
+    if len(query_results) == 0:
         return False
     return True

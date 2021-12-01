@@ -33,8 +33,8 @@ def searchpage():
 @app.route("/delete/<int:restaurant_id>", methods=['POST'])
 def delete(restaurant_id):
     """ recieved post requests for restaurant delete """
-    data = request.form.get('rest-pass')
-    if not db_helper.check_password(data):
+    data = request.form
+    if not db_helper.check_password(data['rest-pass'], data['rating-user-id']):
         return render_template("bad_password.html")
     try:
         db_helper.remove_restaurant_by_id(restaurant_id)
@@ -47,7 +47,7 @@ def delete(restaurant_id):
 def update(restaurant_id):
     """ recieved post requests for restaurant updates """
     data = request.form
-    if not db_helper.check_password(data['rest-pass']):
+    if not db_helper.check_password(data['rest-pass'], data['rating-user-id']):
         return render_template("bad_password.html")
     db_helper.update_restaurant_entry(restaurant_id, data['rest-name'], data['rest-zip'], data['rest-addr'])
     result = {'success': True, 'response': 'Status Updated'}
@@ -57,7 +57,7 @@ def update(restaurant_id):
 def create():
     """ recieves post requests to add new restaurant """
     data = request.form
-    if not db_helper.check_password(data['rest-pass']):
+    if not db_helper.check_password(data['rest-pass'], data['rating-user-id']):
         return render_template("bad_password.html")
     db_helper.insert_new_restaurant(data['rest-name'], data['rest-zip'], data['rest-addr'])
     result = {'success': True, 'response': 'Done'}
@@ -75,7 +75,7 @@ def menupage(restaurant_id):
 def update_dish(restaurant_id, dish_id):
     """updates target dish at target restaurant and refreshes page"""
     data = request.form
-    if not db_helper.check_password(data['dish-pass']):
+    if not db_helper.check_password(data['dish-pass'], data['rating-user-id']):
         return render_template("bad_password.html")
     db_helper.update_dish_entry(dish_id, restaurant_id, data['dish-name'], data['dish-price'])
     return redirect(url_for("menupage", restaurant_id=restaurant_id))
@@ -84,7 +84,7 @@ def update_dish(restaurant_id, dish_id):
 def create_dish(restaurant_id):
     """creates dish at target restaurant and refreshes page"""
     data = request.form
-    if not db_helper.check_password(data['dish-pass']):
+    if not db_helper.check_password(data['dish-pass'], data['rating-user-id']):
         return render_template("bad_password.html")
     db_helper.insert_new_dish(restaurant_id, data['dish-name'], data['dish-price'])
     return redirect(url_for("menupage", restaurant_id=restaurant_id))
@@ -92,8 +92,8 @@ def create_dish(restaurant_id):
 @app.route("/restaurant/<int:restaurant_id>/delete/<int:dish_id>", methods=["POST"])
 def delete_dish(restaurant_id, dish_id):
     """deletes dish at target restaurant and refreshes page"""
-    data = request.form.get('dish-pass')
-    if not db_helper.check_password(data):
+    data = request.form
+    if not db_helper.check_password(data['dish-pass'], data['rating-user-id']):
         return render_template("bad_password.html")
     try:
         db_helper.remove_dish_by_id(dish_id,restaurant_id)
@@ -107,7 +107,7 @@ def create_rating(restaurant_id, dish_id):
     """sends submitted rating to the DB"""
     data = request.form
     adjusted_score = float(data['rating-score'])
-    if not db_helper.check_password(data['rating-pass']):
+    if not db_helper.check_password(data['rating-pass'], data['rating-user-id']):
         return render_template("bad_password.html")
     if adjusted_score < 0:
         adjusted_score = 0
